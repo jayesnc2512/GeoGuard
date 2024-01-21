@@ -181,7 +181,7 @@ const Nav = () => {
   return (
     <AppContainer>
       <TopBar>
-        <p className='hackathon'>RAJASTHAN POLICE HACKATHON</p>
+        // <p className='hackathon'>RAJASTHAN POLICE HACKATHON</p>
         <ul>
           <li className="ml-auto">
             <Link to="/">
