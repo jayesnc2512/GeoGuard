@@ -129,7 +129,7 @@ const SignInForm = ({ onLogin, onSignIn }) => {
       if (response.ok) {
         const data = await response.json();
         console.log('Sign-in successful:', data);
-        localStorage.setItem('user@GeoGuard', JSON.stringify(data));
+        localStorage.setItem('user@GeoTechies', JSON.stringify(data));
         await dispatch({ type: 'LOGIN', payload: data });
         navigate('/home');
       } else {
