@@ -1,0 +1,7 @@
+fastapi==0.68.0
+python-multipart==0.0.5
+opencv-python==4.5.3.56
+requests==2.26.0
+cvlib==0.2.6
+numpy==1.21.2
+tk==0.1.0
