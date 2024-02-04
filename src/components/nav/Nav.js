@@ -181,7 +181,7 @@ const Nav = () => {
   return (
     <AppContainer>
       <TopBar>
-        // <p className='hackathon'>RAJASTHAN POLICE HACKATHON</p>
+         <p className='hackathon'>Google Solution Challenge</p>
         <ul>
           <li className="ml-auto">
             <Link to="/">
@@ -246,6 +246,11 @@ const Nav = () => {
                 <h6>GEOTAG</h6>
               </li>
             </Link>
+            {/* <Link to="/gmaps">
+              <li className={active !== 3 ? 'nav-column' : 'nav-column selected'} onClick={() => setActive(3)}>
+                <h6>Gmaps</h6>
+              </li>
+            </Link> */}
             <Link to="/alert">
               <li className={active !== 2 ? 'nav-column' : 'nav-column selected'} onClick={() => setActive(2)}>
                 <h6>ALERT HISTORY</h6>

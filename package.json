@@ -5,22 +5,26 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@googlemaps/markerclusterer": "^2.5.3",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@mdx-js/mdx": "^3.0.0",
     "@mdx-js/react": "^3.0.0",
     "@mui/icons-material": "^5.15.1",
     "@mui/material": "^5.15.1",
+    "@react-google-maps/api": "^2.19.2",
     "@react-leaflet/core": "^2.1.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@vis.gl/react-google-maps": "^0.5.4",
     "body-parser": "^1.20.2",
     "bootstrap": "^5.3.2",
     "cloudinary-react": "^1.8.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-pino-logger": "^7.0.0",
+    "google-map-react": "^2.2.1",
     "leaflet": "^1.9.4",
     "node-env-run": "^4.0.2",
     "nodemon": "^3.0.2",
@@ -29,6 +33,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.2",
     "react-dom": "^18.2.0",
+    "react-google-maps": "^9.4.5",
     "react-icons": "^4.12.0",
     "react-leaflet": "^4.2.1",
     "react-leaflet-markercluster": "^3.0.0-rc1",
@@ -70,5 +75,8 @@
   "description": "",
   "main": "index.js",
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
 }

@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import styled from 'styled-components';
 import MapWrapper from './leaflet';
 import { useAuthContext } from '../../../hooks/useAuthContext';
-
+import Gmaps from './gmaps';
 const GeotagPageWrapper = styled.div`
   .leaflet-container {
     margin: 30px auto;
@@ -37,7 +37,7 @@ const getLocations = (async () => {
       });
       if (response.ok) {
         const camerasList = await response.json();
-        console.log(camerasList.camByUser);
+        //console.log(camerasList.camByUser);
         setCameras(camerasList.camByUser);
         const mappedCoordinates = camerasList.camByUser.map((cam) => ({
           lat: cam.location.lat,
@@ -47,11 +47,11 @@ const getLocations = (async () => {
         }));
 
         setCoordinates([...coordinates, ...mappedCoordinates]);
-
       }
     } catch (err) {
       console.warn("getCameras failed", err);
     }
+    console.log("coordinates1",coordinates);
   })
 
   useEffect(() => {
@@ -103,7 +103,8 @@ const getLocations = (async () => {
           </button> */}
         </div>
 
-        <MapWrapper coordinates={coordinates} />
+        {/* <MapWrapper coordinates={coordinates} /> */}
+        <Gmaps coordinates={coordinates}/>
       </div>
     </GeotagPageWrapper>
   );

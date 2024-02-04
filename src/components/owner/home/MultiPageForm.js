@@ -159,7 +159,7 @@ const MultiPageForm = ({ setCameras }) => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log('Camera Inserted', data);
+        //console.log('Camera Inserted', data);
         closeModal();
 
       } else {

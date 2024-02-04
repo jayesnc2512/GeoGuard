@@ -164,7 +164,7 @@ const CameraPage = () => {
       });
       if (response.ok) {
         const camerasList = await response.json();
-        console.log(camerasList.camByUser);
+        //console.log(camerasList.camByUser);
         setCameras(camerasList.camByUser);
       }
     } catch (err) {

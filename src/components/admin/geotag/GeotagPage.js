@@ -37,7 +37,7 @@ const GeotagPage = () => {
       });
       if (response.ok) {
         const camerasList = await response.json();
-        console.log(camerasList.allCamera);
+        //console.log(camerasList.allCamera);
         setCameras(camerasList.allCamera);
         const mappedCoordinates = camerasList.allCamera.map((cam) => ({
           lat: cam.location.lat,

@@ -9,6 +9,7 @@ import OAlertPage from './components/owner/alert/AlertPage';
 import AHomePage from './components/admin/home/HomePage';
 import AGeotagPage from './components/admin/geotag/GeotagPage';
 import AAlertPage from './components/admin/alert/AlertPage';
+import Gmaps from './components/owner/geotag/gmaps';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // const AppContainer = styled.div`
@@ -67,6 +68,7 @@ const App = () => {
         {/* <Route path="/adminHome" element={<AHomePage/>}/> */}
 
         <Route path="/geotag" element={loginMode === 0 ? <LandingPage /> : (loginMode === 2 ? <AGeotagPage /> : <OGeotagPage />)} />
+        {/* <Route path="/gmaps" element={loginMode === 0 ? <LandingPage /> : (loginMode === 2 ? <Gmaps /> : <Gmaps />)} /> */}
 
           <Route
             path="/alert"

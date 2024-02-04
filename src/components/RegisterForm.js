@@ -131,7 +131,7 @@ const RegisterForm = () => {
         else if (response.ok) {
           const data = await response.json();
           console.log('Sign-up successful:');
-          console.log(data);
+          //console.log(data);
           localStorage.setItem('userData', data);
           await dispatch({ type: 'LOGIN', payload: data });
           navigate('/home');

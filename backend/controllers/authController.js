@@ -55,7 +55,7 @@ const loginController = async (req, res) => {
     try {
         const { email, password } = req.body
         //validation
-        await console.log(req.body);
+        //await console.log(req.body);
         if (!email || !password) {
             console.log('empty creds')
             return res.status(404).send({
@@ -98,7 +98,7 @@ const testController = (req, res) => {
     res.send({
         message: "protected"
     })
-    console.log(res.data);
+    //console.log(res.data);
 }
 export { registerController, loginController, testController };
 

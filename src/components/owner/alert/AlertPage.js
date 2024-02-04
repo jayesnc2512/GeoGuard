@@ -214,7 +214,7 @@ const AlertPage = () => {
       });
       if (response.ok) {
         const camerasList = await response.json();
-        console.log(camerasList.camByUser);
+        //console.log(camerasList.camByUser);
         // setCameras(camerasList.camByUser);
         const mappedCameras = await camerasList.camByUser.map((cam) => ({
           userId: cam.userId,
