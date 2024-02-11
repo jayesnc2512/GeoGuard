@@ -37,13 +37,14 @@ const getLocations = (async () => {
       });
       if (response.ok) {
         const camerasList = await response.json();
-        //console.log(camerasList.camByUser);
+        console.log(camerasList);
         setCameras(camerasList.camByUser);
         const mappedCoordinates = camerasList.camByUser.map((cam) => ({
           lat: cam.location.lat,
           lng: cam.location.lon,
           lid: cam.licenseId,
-          ip:cam.ip
+          ip:cam.ip,
+          imgs: cam.pictures.pic1
         }));
 
         setCoordinates([...coordinates, ...mappedCoordinates]);

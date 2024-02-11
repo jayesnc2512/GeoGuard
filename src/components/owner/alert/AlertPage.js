@@ -1,9 +1,10 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useRef } from 'react';
 import {
   Card,
   CardContent,
   Typography,
   List,
+  TextField,
   makeStyles,
   Dialog,
   DialogTitle,
@@ -12,14 +13,16 @@ import {
   Button,
   IconButton,
 } from '@material-ui/core';
-
+import emailjs from 'emailjs-com';
+// import emailjs from '@emailjs/browser';
+import Swal from 'sweetalert2';
+import 'semantic-ui-css/semantic.min.css'; 
 import SearchBar from './SearchBar';
 import FilterMenu from './FilterMenu';
 import ListItemComponent from './ListItemComponent';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Nav from '../../nav/Nav';
 import { useAuthContext } from '../../../hooks/useAuthContext';
-
 
 
 const useStyles = makeStyles((theme) => ({
@@ -74,7 +77,10 @@ const AlertPage = () => {
   const [alerts, setAlerts] = useState();
   const [readAlerts, setReadAlerts] = useState([]);
   const [unreadAlerts, setUnreadAlerts] = useState([]);
-
+  const SERVICE_ID = process.env.REACT_APP_SERVICE_ID;
+  const TEMPLATE_ID = process.env.REACT_APP_TEMPLATE_ID;
+  const USER_ID = process.env.REACT_APP_USER_ID;
+  
   const [currentAlertCount, setCurrentAlertCount] = useState(0);
   const [CAlerts, setCAlerts] = useState({
     camera1: [
@@ -327,6 +333,57 @@ const AlertPage = () => {
     setSelectedCamera(selectedCamera);
     setAnchorEl(null);
   };
+  const [complaintText, setComplaintText] = useState("");
+  const [isComplaintOpen, setIsComplaintOpen] = useState(false); // State for the complaint dialog
+
+  const handleComplaintChange = (event) => {
+    setComplaintText(event.target.value);
+  };
+
+  const handleOpenComplaint = (alert) => {
+    setSelectedAlert(alert);
+    setIsComplaintOpen(true);
+  };
+
+  const handleCloseComplaint = () => {
+    setIsComplaintOpen(false);
+    setComplaintText(""); 
+  };
+  
+// const form = useRef();
+const formRef = useRef(null); // Ref for the form element
+
+const handleOnSubmit = async (e) => {
+  handleClose();
+  e.preventDefault();
+  try {
+    const form = formRef.current; // Access the form element using the ref
+    form.camName.value=selectedAlert.camName;
+    form.camLid.value=selectedAlert.camLid;
+    form.date.value=selectedAlert.formattedDate;
+    form.time.value=selectedAlert.formattedTime;
+    form.location.value=`${selectedAlert.camLat},${selectedAlert.camLon}`;
+    const result = await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form, USER_ID);
+    console.log(result.text);
+    Swal.fire({
+      icon: 'success',
+      title: 'Complaint Sent Successfully',
+    });
+
+    // Reset form inputs
+    form.reset();
+    setComplaintText(""); // Reset the state controlling the input field
+  } catch (error) {
+    console.log(error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Ooops, something went wrong',
+      text: error,
+    });
+  }
+  handleCloseComplaint();
+};
+
 
   return (
     <div>
@@ -415,11 +472,46 @@ const AlertPage = () => {
           )}
           {!viewedAlert[selectedCamera].includes(selectedAlert) && (
             <>
+              <Button onClick={() => handleOpenComplaint(selectedAlert)}>Lodge</Button>
               <Button onClick={handleClose}>View Later</Button>
               <Button onClick={()=>updateRead(selectedAlert.msgId,selectedAlert.read)}>Mark As Viewed</Button>
             </>
           )}
         </DialogActions>
+      </Dialog>
+      {/* Complaint Dialog */}
+      <Dialog open={isComplaintOpen} onClose={handleCloseComplaint}>
+        <DialogTitle>Lodge a Complaint</DialogTitle>
+        {selectedAlert && (
+        <DialogContent>
+          <Typography variant="h6">Camera:</Typography>
+          <Typography>{selectedAlert.camName}</Typography>
+          <form ref={formRef} onSubmit={handleOnSubmit}>
+          <input type="hidden" name="camName" />
+          <input type="hidden" name="camLid" />
+          <input type="hidden" name="date" />
+          <input type="hidden" name="time" />
+          <input type="hidden" name="location" />
+        <TextField
+          label="Additional Info"
+          name="message"
+          fullWidth
+          multiline
+          value={complaintText}
+          onChange={handleComplaintChange}
+        />
+        <Button type="submit">Send Complaint</Button>
+      </form>
+        </DialogContent>
+        )}
+        {/* <DialogActions>
+          <Button onClick={handleCloseComplaint} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleOnSubmit} color="primary">
+            Send Complaint
+          </Button>
+        </DialogActions> */}
       </Dialog>
     </div>
   );
