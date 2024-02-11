@@ -39,26 +39,26 @@ def alert(msg,name,lid,userId):
             print("Success:", json_response.get("success"))
             print("Message:", json_response.get("message"))
             print("Created Alert:", json_response.get("newAlert"))
-            messages_request_data = {
-                "to": "+919699312121",  # Replace with your actual environment variable name
-                "body": msg  # Update with the actual message body
-            }
+            # messages_request_data = {
+            #     "to": "+919699312121",  # Replace with your actual environment variable name
+            #     "body": msg  # Update with the actual message body
+            # }
 
             admin_messages_request_data = {
                 "to": "+919834624338",  # Replace with your actual environment variable name
                 "body": msg  # Update with the actual message body
             }
 
-            messages_response = requests.post(messages_endpoint, json=messages_request_data)
+            #messages_response = requests.post(messages_endpoint, json=messages_request_data)
             # messages_response2 = requests.post(messages_endpoint, json=admin_messages_request_data)
 
 
             # Check the response status code for the /messages request
-            if messages_response.status_code == 200:
-                print("Message sent successfully")
-            else:
-                print(f"Error sending message: {messages_response.status_code}")
-                print(messages_response.json())
+            # if messages_response.status_code == 200:
+            #     print("Message sent successfully")
+            # else:
+            #     print(f"Error sending message: {messages_response.status_code}")
+            #     print(messages_response.json())
             # if messages_response2.status_code == 200:
             #     print("Message sent successfully to admin")
             # else:
