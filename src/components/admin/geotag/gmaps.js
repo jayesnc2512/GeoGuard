@@ -5,33 +5,42 @@ import {
   AdvancedMarker,
   Pin,
   InfoWindow,
-  Polygon,
 } from "@vis.gl/react-google-maps";
-import styled from 'styled-components';
+import styled from "styled-components";
 import { Circle } from "./circle.tsx";
 
 const GmapsWrap = styled.div`
-  .infowindow {
-    padding: 5px;
-  }
-  .infowindow img {
-    width: 100px;
-    height: 100px;
-  }
-  .card {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: white;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  .card img{
-    width: 50px;
-    height: 50px;
-  }
+.infowindow {
+  padding: 5px;
+}
+.infowindow img {
+  width: 100px;
+  height: 100px;
+}
+.card {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.card img {
+  width: 50px;
+  height: 50px;
+}
+.control-panel {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 `;
 
 const Gmaps = ({ coordinates }) => {
@@ -39,6 +48,8 @@ const Gmaps = ({ coordinates }) => {
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [showMoreInfo, setShowMoreInfo] = useState(false);
   const [selectedMarkerData, setSelectedMarkerData] = useState(null);
+  const [radius, setRadius] = useState(15000); // Default radius
+  const [showNearbyCameras, setShowNearbyCameras] = useState(false);
 
   useEffect(() => {
     const getLocation = () => {
@@ -56,7 +67,22 @@ const Gmaps = ({ coordinates }) => {
     getLocation();
   }, []);
 
-  const position = { lat: 20.5937, lng: 78.9629 };
+  // Function to calculate distance between two points using Haversine formula
+  const calculateDistance = (point1, point2) => {
+    const deg2rad = (deg) => deg * (Math.PI / 180);
+    const R = 6371; // Radius of the Earth in km
+    const dLat = deg2rad(point2.lat - point1.lat);
+    const dLon = deg2rad(point2.lng - point1.lng);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(point1.lat)) *
+        Math.cos(deg2rad(point2.lat)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distance in km
+    return distance * 1000; // Convert to meters
+  };
 
   const handleMarkerClick = (index, data) => {
     setSelectedMarker(index);
@@ -68,70 +94,105 @@ const Gmaps = ({ coordinates }) => {
     setShowMoreInfo(!showMoreInfo);
   };
 
+  const handleRadiusChange = (event) => {
+    setRadius(Number(event.target.value));
+  };
+
+  const handleToggleNearbyCameras = () => {
+    setShowNearbyCameras(!showNearbyCameras);
+  };
+
   return (
     <GmapsWrap>
       <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-        <div style={{ position: 'relative', height: "75vh", width: "100%" }}>
-          <Map zoom={5} center={position} mapId={process.env.REACT_APP_GOOGLE_MAPS_ID}>
+        <div style={{ position: "relative", height: "75vh", width: "100%" }}>
+          <Map
+            zoom={5}
+            center={{ lat: 20.5937, lng: 78.9629 }}
+            mapId={process.env.REACT_APP_GOOGLE_MAPS_ID}
+          >
             {coordinates &&
               Object.keys(coordinates).map((key, index) => {
                 const coord = coordinates[key];
-                return (
-                  <AdvancedMarker
-                    key={index}
-                    position={{
-                      lat: parseFloat(coord.lat),
-                      lng: parseFloat(coord.lng),
-                    }}
-                    onClick={() => handleMarkerClick(index, coord)}
-                  >
-                    <Pin
-                      background={"blue"}
-                      borderColor={"darkblue"}
-                      glyphColor={"white"}
-                    />
-                  </AdvancedMarker>
-                );
+                const distance = calculateDistance(userLocation, coord);
+                if (!showNearbyCameras || distance <= radius) {
+                  return (
+                    <AdvancedMarker
+                      key={index}
+                      position={{
+                        lat: parseFloat(coord.lat),
+                        lng: parseFloat(coord.lng),
+                      }}
+                      onClick={() => handleMarkerClick(index, coord)}
+                    >
+                      <Pin background={"blue"} borderColor={"darkblue"} glyphColor={"white"} />
+                    </AdvancedMarker>
+                  );
+                }
+                return null;
               })}
             {userLocation && (
               <AdvancedMarker
                 position={userLocation}
                 onClick={() => handleMarkerClick(null)}
               >
-                <Pin
-                  background={"green"}
-                  borderColor={"green"}
-                  glyphColor={"white"}
-                />
+                <Pin background={"green"} borderColor={"green"} glyphColor={"white"} />
                 {selectedMarker === null && userLocation && (
-                    <InfoWindow position={userLocation}>
-                      <p>
-                        Your Location: Latitude {userLocation.lat}, Longitude{" "}
-                        {userLocation.lng}
-                      </p>
-                    </InfoWindow>
-                  )}
+                  <InfoWindow position={userLocation}>
+                    <p>
+                      Your Location: Latitude {userLocation.lat}, Longitude{" "}
+                      {userLocation.lng}
+                    </p>
+                  </InfoWindow>
+                )}
               </AdvancedMarker>
             )}
-            <Circle
-              center={userLocation}
-              radius={15000}
-              range={1}
-            />
+            {showNearbyCameras && (
+              <Circle center={userLocation} radius={radius} />
+            )}
+            <div className="control-panel">
+        <label>Radius:</label>
+        <input
+          type="range"
+          min="15000"
+          max="1500000"
+          value={radius}
+          onChange={handleRadiusChange}
+        />
+        <button onClick={handleToggleNearbyCameras}>
+          {showNearbyCameras ? "Hide Nearby Cameras" : "Show Nearby Cameras"}
+        </button>
+      </div>
           </Map>
           {selectedMarkerData && showMoreInfo && (
             <div className="card">
               <h3>More Information</h3>
-              <p><strong>Cam IP: </strong>{selectedMarkerData.ip}</p>
-              <p><strong>License ID: </strong>{selectedMarkerData.lid}</p>
-              <p><strong>Latitude: </strong>{selectedMarkerData.lat}</p>
-              <p><strong>Longitude: </strong>{selectedMarkerData.lng}</p>
-              <p><strong>Image: </strong><img src={selectedMarkerData.imgs} alt="cameraimg" /></p>
+              <p>
+                <strong>Cam IP: </strong>
+                {selectedMarkerData.ip}
+              </p>
+              <p>
+                <strong>License ID: </strong>
+                {selectedMarkerData.lid}
+              </p>
+              <p>
+                <strong>Latitude: </strong>
+                {selectedMarkerData.lat}
+              </p>
+              <p>
+                <strong>Longitude: </strong>
+                {selectedMarkerData.lng}
+              </p>
+              <p>
+                <strong>Image: </strong>
+                <img src={selectedMarkerData.imgs} alt="cameraimg" />
+              </p>
               <button onClick={handleViewMoreClick}>Hide Info</button>
             </div>
           )}
         </div>
       </APIProvider>
+      
     </GmapsWrap>
   );
 };
