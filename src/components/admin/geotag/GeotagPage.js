@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import MapWrapper from './leaflet';
+import Gmaps from './gmaps.js';
 import Nav from '../../nav/Nav';
 import { useAuthContext } from '../../../hooks/useAuthContext.js';
 
@@ -73,7 +73,7 @@ const GeotagPage = () => {
 
       <div className="geotag">
        
-        <MapWrapper coordinates={coordinates} />
+        <Gmaps coordinates={coordinates} />
       </div>
     </GeotagPageWrapper>
   );
