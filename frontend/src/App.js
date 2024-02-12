@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
+import { Navigate } from 'react-router-dom';
 
 import OHomePage from "./components/owner/home/HomePage";
 import OGeotagPage from "./components/owner/geotag/GeotagPage";
@@ -17,7 +18,7 @@ import "./assets/scss/paper-dashboard.scss?v=1.3.0";
 import "./assets/demo/demo.css";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 
-import AdminLayout from "../layouts/Admin.js";
+import AdminLayout from "../src/layouts/Admin.js";
 
 // const AppContainer = styled.div`
 //   max-width: 800px;
@@ -112,8 +113,8 @@ const App = () => {
         <Route path="/contact" element={<Contactus />} />
         <Route path="/download" element={<DownloadPage />} />
         <Route path="/aboutus" element={<Aboutus />} />
-      <Route path="/admin/*" element={<AdminLayout />} />
-      <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
+        <Route path="/admin/*" element={<AdminLayout />} />
+        <Route path="/" element={<Navigate to="/admin-dashboard" replace />} />
       </Routes>
     </Router>
   );
