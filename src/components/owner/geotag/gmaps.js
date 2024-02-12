@@ -39,9 +39,9 @@ const Gmaps = ({ coordinates }) => {
   };
 
   return (
-    <APIProvider apiKey={REACT_APP_GOOGLE_MAPS_API_KEY}>
+    <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
       <div style={{ height: "75vh", width: "100%" }}>
-        <Map zoom={5} center={position} mapId={REACT_APP_GOOGLE_MAPS_ID}>
+        <Map zoom={5} center={position} mapId={process.env.REACT_APP_GOOGLE_MAPS_ID}>
           {coordinates &&
             Object.keys(coordinates).map((key, index) => {
               const coord = coordinates[key];
