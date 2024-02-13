@@ -6,7 +6,7 @@ from requests.exceptions import RequestException
 import json
 from tkinter import font
 import time
-
+from tkinter import StringVar
 
 global token
 global user_info
@@ -76,7 +76,8 @@ def authenticate():
         # messagebox.showerror("Login Failed", "Invalid username or password")
 
 def open_main_window():
-    global install_button
+    global install_index_button
+    global install_rtsp_button
     cameras_api_endpoint = "http://localhost:3001/api/camera/getCamByUserId"
     headers = {
         "token": token,
@@ -90,13 +91,36 @@ def open_main_window():
 
     main_window = tk.Toplevel(root)
     main_window.title("GeoGuard Security System")
-    main_window.geometry("300x150")
-    install_button = tk.Button(main_window, text="Install Requirements", command=lambda: install_requirements(main_window,cam_by_user))
-    install_button.pack(pady=10)
-def install_requirements(main_window,cam):
-    # Disable the button
-    install_button.config(state=tk.DISABLED)
+    main_window.geometry("500x300")
 
+    rtsp_entry_label = tk.Label(main_window, text="Enter RTSP Link:")
+    rtsp_entry_label.pack(pady=10)
+    rtsp_var = StringVar()
+    rtsp_entry = tk.Entry(main_window, textvariable=rtsp_var)
+    rtsp_entry.pack(pady=10)
+
+        # Toggle button for Tampering model (default to always on)
+    tampering_toggle_var = tk.BooleanVar()
+    tampering_toggle_button = tk.Checkbutton(main_window, text="Tampering Model (Always On)", variable=tampering_toggle_var, state=tk.DISABLED)
+    tampering_toggle_button.pack(pady=10)
+    tampering_toggle_var.set(True)  # Set the default value to True
+
+    # Toggle button for People Count model
+    people_count_toggle_var = tk.BooleanVar()
+    people_count_toggle_button = tk.Checkbutton(main_window, text="People Count Model", variable=people_count_toggle_var)
+    people_count_toggle_button.pack(pady=10)
+
+    install_index_button = tk.Button(main_window, text="Install Requirements for Camera Index",
+                                     command=lambda: install_requirements(main_window, cam_by_user,rtsp_var, people_count_toggle_var.get(), "True"))
+    install_index_button.pack(pady=10)
+
+    install_rtsp_button = tk.Button(main_window, text="Install Requirements for RTSP Camera",
+                                    command=lambda: install_requirements(main_window, cam_by_user,rtsp_var, people_count_toggle_var.get(), "False"))
+    install_rtsp_button.pack(pady=10)
+def install_requirements(main_window,cam,rtsp_var,people_count_enabled, is_index):
+    # Disable the button
+    install_index_button.config(state=tk.DISABLED)
+    install_rtsp_button.config(state=tk.DISABLED)
     # Create a label to show the download process
     download_label = tk.Label(main_window, text="Downloading and installing requirements...")
     download_label.pack(pady=10)
@@ -117,9 +141,9 @@ def install_requirements(main_window,cam):
     button_window.title("Camera Window")
 
     # Define button callbacks
-    def button_callback(para,name,lid,user):
-        subprocess.Popen(["python", "main.py", str(para), str(name),str(lid),str(user)])
-        #process_video(para)
+    # def button_callback(para,name,lid,user):
+    #     subprocess.Popen(["python", "main.py", str(para), str(name),str(lid),str(user)])
+    #     #process_video(para)
 
     # Create buttons in a 2x2 grid
     buttons = []
@@ -134,12 +158,21 @@ def install_requirements(main_window,cam):
     #                                                                         cam_data.get('userId','n/a')))
     #     button.grid(row=row_num, column=col_num, padx=10, pady=10)
     #     buttons.append(button)
-    for cam_data in cam:
-        subprocess.Popen(["python", "main.py", str(cam_data.get('camIndex', '0')),
-                          str(cam_data.get('nickName', 'n/a')),
-                          str(cam_data.get('licenseId', 'n/a')),
-                          str(cam_data.get('userId', 'n/a'))])
-
+    # rtsp_url = "rtsp://admin:2121@192.168.211.4:8080/h264_ulaw.sdp"
+    people_count_arg = "1" if people_count_enabled else "0"
+    rtsp_url = rtsp_var.get()
+    if(is_index=="True"):     
+        for cam_data in cam:
+            subprocess.Popen(["python", "main.py", str(cam_data.get('camIndex', '0')),
+                            str(cam_data.get('nickName', 'n/a')),
+                            str(cam_data.get('licenseId', 'n/a')),
+                            str(cam_data.get('userId', 'n/a')),is_index,people_count_arg])
+    else:
+        for cam_data in cam:
+            subprocess.Popen(["python", "main.py", rtsp_url,
+                            str(cam_data.get('nickName', 'n/a')),
+                            str(cam_data.get('licenseId', 'n/a')),
+                            str(cam_data.get('userId', 'n/a')),is_index,people_count_arg])
 
 # the main window
         

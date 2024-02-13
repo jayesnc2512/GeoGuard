@@ -14,11 +14,17 @@ recording_start_time = None
 if len(sys.argv) < 2:
     sys.exit(1)
 
-# Extract the camera index from the command-line argument
-camera_index = int(sys.argv[1])
+
+if(sys.argv[5] == "False"):
+    rtsp_url = sys.argv[1]
+    cap = cv2.VideoCapture(rtsp_url, cv2.CAP_FFMPEG)
+else:   
+    camera_index = int(sys.argv[1])
+    cap = cv2.VideoCapture(camera_index)
 
 # Initialize camera
-cap = cv2.VideoCapture(camera_index)
+
+
 fgbg = cv2.createBackgroundSubtractorMOG2()
 ret, frame = cap.read()
 kernel = np.ones((5, 5), np.uint8)
@@ -49,11 +55,13 @@ while True:
         print("End of frame")
         break
 
-    # Person counting part
-    frame = count_persons(frame,sys.argv[2],sys.argv[3],sys.argv[4])
     fgmask =perform_background_subtraction(frame, fgbg, kernel,sys.argv[2],sys.argv[3],sys.argv[4])
     # Check for tampering
-   
+
+    if(sys.argv[6] == "1"):
+        frame = count_persons(frame,sys.argv[2],sys.argv[3],sys.argv[4])
+    # Person counting part
+
 
     cv2.imshow(sys.argv[2], frame)
 
