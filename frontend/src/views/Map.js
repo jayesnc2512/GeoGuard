@@ -19,6 +19,7 @@
 import React from "react";
 // reactstrap components
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+import GeotagPage from "../components/owner/geotag/GeotagPage";
 
 const MapWrapper = () => {
   const mapRef = React.useRef(null);
@@ -203,13 +204,14 @@ function Map() {
             <Card>
               <CardHeader>Google Maps</CardHeader>
               <CardBody>
-                <div
+                {/* <div
                   id="map"
                   className="map"
                   style={{ position: "relative", overflow: "hidden" }}
-                >
+                > */}
                   <MapWrapper />
-                </div>
+                  <GeotagPage/>
+                {/* </div> */}
               </CardBody>
             </Card>
           </Col>
