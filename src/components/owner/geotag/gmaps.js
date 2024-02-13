@@ -103,30 +103,6 @@ const Gmaps = ({ coordinates }) => {
   };
 
   return (
-<<<<<<< HEAD
-    <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-      <div style={{ height: "75vh", width: "100%" }}>
-        <Map zoom={5} center={position} mapId={process.env.REACT_APP_GOOGLE_MAPS_ID}>
-          {coordinates &&
-            Object.keys(coordinates).map((key, index) => {
-              const coord = coordinates[key];
-              return (
-                <AdvancedMarker
-                  key={index}
-                  position={{
-                    lat: parseFloat(coord.lat),
-                    lng: parseFloat(coord.lng),
-                  }}
-                  onClick={() => handleMarkerClick(index)}
-                >
-                  <Pin
-                    background={"blue"}
-                    borderColor={"darkblue"}
-                    glyphColor={"white"}
-                  />
-                  {selectedMarker === index && (
-                    <InfoWindow
-=======
     <GmapsWrap>
       <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
         <div style={{ position: "relative", height: "75vh", width: "100%" }}>
@@ -143,7 +119,6 @@ const Gmaps = ({ coordinates }) => {
                   return (
                     <AdvancedMarker
                       key={index}
->>>>>>> bd8ef1f1aee8a731eab2c424ad2fbc4571079f88
                       position={{
                         lat: parseFloat(coord.lat),
                         lng: parseFloat(coord.lng),
