@@ -1,32 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import MultiPageForm from './MultiPageForm';
-import { useAuthContext } from '../../../hooks/useAuthContext';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import MultiPageForm from "./MultiPageForm";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const CameraPageWrapper = styled.div`
-  .camera-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-  .btn{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+
+  .btn {
     display: flex;
     flex-direction: row;
   }
-  .savebtn{
-    width:5rem;
-    padding:4px;
-    margin:4px;
+
+  .savebtn,
+  .closebtn,
+  label {
+    width: 5rem;
+    padding: 4px;
+    margin: 4px;
   }
-  .closebtn{
-    width:5rem;
-    padding:4px;
-    margin:4px;
-  }
-  label{
-    padding:4px;
-    margin:4px;
+
+  label {
+    padding: 4px;
+    margin: 4px;
   }
 `;
 
@@ -62,20 +60,20 @@ const AddCameraButton = styled.button`
 `;
 
 const PopupOverlay = styled.div`
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: transparent; /* Light blue background */
-display: flex;
-justify-content: center;
-align-items: center;
-z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent; /* Light blue background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
 `;
 
 const Popup = styled.div`
-display: flex;
+  display: flex;
   flex-direction: column;
   align-items: flex-start; /* Align content to the left */
   background-color: #f0f8ff; /* AliceBlue color */
@@ -121,73 +119,67 @@ display: flex;
 `;
 
 const DltBtn = styled.button`
-border-color: red;
-background-color: transparent;
-color:red;
-border:none;
-border-radius:5px;
-&:hover {
+  border-color: red;
+  background-color: transparent;
+  color: red;
+  border: none;
+  border-radius: 5px;
+
+  &:hover {
     transform: scale(1.05);
     background-color: red;
-    color:white;
+    color: white;
   }
-`
-
+`;
 
 const CameraPage = () => {
   const [cameras, setCameras] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [newCamera, setNewCamera] = useState({
-    name: '',
-    location: '',
-    latitude: '',
-    longitude: '',
-    cameraMp: '',
+    name: "",
+    location: "",
+    latitude: "",
+    longitude: "",
+    cameraMp: "",
     cameraViewAngle: 0,
     images: [],
   });
   const [selectedCamera, setSelectedCamera] = useState(null);
   const { userData } = useAuthContext();
 
-  // const serverUrl = 'https://crispy-space-sniffle-v77vvpvp4jjcp646-3000.app.github.dev/'; // Replace with your server URL
-
-  // Load data from local storage on component mount
-
-  const getCameras = (async () => {
+  const getCameras = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/camera/getCamByUserId/`, {
-        method: 'GET',
-        headers: {
-          'token': userData.token,
-          'userId': userData.user._id,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/camera/getCamByUserId/`,
+        {
+          method: "GET",
+          headers: {
+            token: userData.token,
+            userId: userData.user._id,
+          },
+        }
+      );
       if (response.ok) {
         const camerasList = await response.json();
-        //console.log(camerasList.camByUser);
         setCameras(camerasList.camByUser);
       }
     } catch (err) {
       console.warn("getCameras failed", err);
     }
-  })
+  };
 
   useEffect(() => {
     getCameras();
   }, [userData]);
 
-
-
   const renderValue = (key, value) => {
-    if (typeof value === 'object' && value !== null) {
-      // If the value is an object (nested property), recursively render its properties
+    if (typeof value === "object" && value !== null) {
       return Object.entries(value).map(([nestedKey, nestedValue]) => (
         <p key={`${key}-${nestedKey}`}>
           <strong>{`${nestedKey}:`}</strong> {nestedValue}
         </p>
       ));
     } else {
-      // If the value is not an object, render it directly
       return (
         <p key={key}>
           <strong>{key}:</strong> {value}
@@ -196,18 +188,21 @@ const CameraPage = () => {
     }
   };
 
-  const handleDelete = (async (lid, nickName) => {
+  const handleDelete = async (lid, nickName) => {
     const cnf = window.confirm(`Are you sure, you want to delete ${nickName}`);
     if (cnf === true) {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/camera/deleteCam/`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'licenseid': lid,
-            'token': userData.token,
-          },
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/camera/deleteCam/`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              licenseid: lid,
+              token: userData.token,
+            },
+          }
+        );
 
         if (response.ok) {
           alert(`Successfully Deleted ${nickName}`);
@@ -217,11 +212,11 @@ const CameraPage = () => {
           alert(`Error deleting ${nickName}: ${errorData.message}`);
         }
       } catch (error) {
-        console.error('Error during deletion:', error);
-        alert('Error during deletion. Please try again.');
+        console.error("Error during deletion:", error);
+        alert("Error during deletion. Please try again.");
       }
     }
-  })
+  };
 
   const handleCameraClick = (camera) => {
     setSelectedCamera(camera);
@@ -230,9 +225,9 @@ const CameraPage = () => {
   const handleCloseCameraDetailsPopup = () => {
     setSelectedCamera(null);
   };
+
   return (
     <CameraPageWrapper className="camera-page">
-      {/* <AddCameraButton onClick={handleAddCamera}>Add Camera</AddCameraButton> */}
       <MultiPageForm setCameras={setCameras} />
       <CameraGrid>
         {cameras.map((camera, index) => (
@@ -241,25 +236,28 @@ const CameraPage = () => {
             <p>{camera.location.lat}</p>
             <p>{camera.location.lon}</p>
             <h3>{camera.ip}</h3>
-            <DltBtn onClick={() => handleDelete(camera.licenseId, camera.nickName)}>Delete</DltBtn>
+            <DltBtn
+              onClick={() => handleDelete(camera.licenseId, camera.nickName)}
+            >
+              Delete
+            </DltBtn>
           </CameraCard>
         ))}
       </CameraGrid>
-
-      {/* {showPopup && <MultiPageForm/>} */}
-
       {selectedCamera && (
         <PopupOverlay onClick={handleCloseCameraDetailsPopup}>
           <Popup>
-            <button className="close-button" onClick={handleCloseCameraDetailsPopup}>
+            <button
+              className="close-button"
+              onClick={handleCloseCameraDetailsPopup}
+            >
               Close
             </button>
             <h2>Camera Details</h2>
-            {Object.entries(selectedCamera).map(([key, value]) => (
+            {Object.entries(selectedCamera).map(([key, value]) =>
               renderValue(key, value)
-            ))}
-            <img src={selectedCamera.pictures.pic1} alt='picture' />
-
+            )}
+            <img src={selectedCamera.pictures.pic1} alt="picture" />
           </Popup>
         </PopupOverlay>
       )}

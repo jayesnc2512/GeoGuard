@@ -1,25 +1,9 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
-import RegisterForm from './RegisterForm';
-import { Link } from 'react-router-dom';
-import { Home } from '@material-ui/icons';
-import { useAuthContext } from '../hooks/useAuthContext';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
-const LoginForm = styled.div`
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-`;
 const Container = styled.div`
   max-width: 35%;
   margin: auto;
@@ -28,6 +12,10 @@ const Container = styled.div`
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    max-width: 80%;
+  }
 `;
 
 const Title = styled.h2`
@@ -51,8 +39,6 @@ const Label = styled.label`
 
 const InputContainer = styled.div`
   position: relative;
-  
-
 `;
 
 const Input = styled.input`
@@ -72,7 +58,6 @@ const ToggleIcon = styled.span`
   margin-left: 8px;
 `;
 
-
 const Button = styled.button`
   background-color: #004651;
   color: white;
@@ -85,39 +70,37 @@ const Button = styled.button`
     background-color: #45a049;
   }
 `;
+
 const RegisterLink = styled.span`
   margin-top: 10px;
   text-align: center;
   color: #333;
   cursor: pointer;
+
   &:hover {
     text-decoration: underline;
   }
 `;
 
-const SignInForm = ({ onLogin, onSignIn }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const SignInForm = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
-  const [mode, setMode] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const { dispatch } = useAuthContext();
-
-
+  const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-
     try {
       // Define the API endpoint
       const apiUrl = `${process.env.REACT_APP_API_URL}/auth/login/`;
 
       // Make the API call
       const response = await fetch(apiUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email,
@@ -128,33 +111,37 @@ const SignInForm = ({ onLogin, onSignIn }) => {
       // Check if the response is successful (status code 2xx)
       if (response.ok) {
         const data = await response.json();
-        console.log('Sign-in successful:', data);
-        localStorage.setItem('user@GeoTechies', JSON.stringify(data));
-        await dispatch({ type: 'LOGIN', payload: data });
-        navigate('/home');
+        console.log("Sign-in successful:", data);
+        localStorage.setItem("user@GeoTechies", JSON.stringify(data));
+        await dispatch({ type: "LOGIN", payload: data });
+        navigate("/home");
       } else {
         const errorData = await response.json();
-        console.error('Error signing in:', errorData);
+        console.error("Error signing in:", errorData);
         setError(errorData.message);
         // Handle the error, show an error message, etc.
       }
     } catch (error) {
-      alert('Error during sign-in:');
+      alert("Error during sign-in:");
       console.error(error);
       // Handle network errors or other exceptions
     }
 
     // Reset form fields after submission
-    setEmail('');
-    setPassword('');
+    setEmail("");
+    setPassword("");
     setShowPassword(false);
   };
+
   return (
     <Container>
       <Title>Sign In</Title>
       <Form onSubmit={handleSignIn}>
         <Label htmlFor="email">
-          <Icon><FaEnvelope /></Icon>Email:
+          <Icon>
+            <FaEnvelope />
+          </Icon>
+          Email:
         </Label>
         <Input
           type="email"
@@ -166,7 +153,10 @@ const SignInForm = ({ onLogin, onSignIn }) => {
         />
 
         <Label htmlFor="password">
-          <Icon><FaLock /></Icon>Password:
+          <Icon>
+            <FaLock />
+          </Icon>
+          Password:
         </Label>
         <InputContainer>
           <Input
@@ -181,17 +171,13 @@ const SignInForm = ({ onLogin, onSignIn }) => {
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </ToggleIcon>
         </InputContainer>
-        <p style={{ 'color': 'red' }}>{error}</p>
+        <p style={{ color: "red" }}>{error}</p>
         <Button type="submit">Sign In</Button>
 
         <RegisterLink>
-          <Link to="/register">
-            New user? Click here to Register
-          </Link>
+          <Link to="/register">New user? Click here to Register</Link>
         </RegisterLink>
-
       </Form>
-
     </Container>
   );
 };

@@ -38,7 +38,7 @@ function Dashboard(props) {
     setBackgroundColor(color);
   };
   return (
-    <div className="wrapper">
+    <div className="wrapper" style={{ height: "0vh" }}>
       <Sidebar
         {...props}
         routes={routes}
@@ -46,7 +46,7 @@ function Dashboard(props) {
         activeColor={activeColor}
       />
       <div className="main-panel" ref={mainPanel}>
-        <DemoNavbar {...props} />
+        {/* <DemoNavbar {...props} /> */}
         <Routes>
           {routes.map((prop, key) => {
             return (

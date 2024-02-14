@@ -60,6 +60,7 @@ const TopBar = styled.div`
   text-align: center;
   display: flex;
   color: white;
+  flex-wrap: wrap;
 
   .hackathon {
     display: flex;
@@ -67,6 +68,7 @@ const TopBar = styled.div`
     text-align: left;
     margin-left: 10px;
     font-size: 18px;
+    flex: 1;
   }
 
   ul {
@@ -76,6 +78,7 @@ const TopBar = styled.div`
     margin: 0;
     background-color: #004651;
     margin-left: auto;
+    flex-wrap: wrap;
   }
 
   li {
