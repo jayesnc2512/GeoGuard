@@ -1,4 +1,4 @@
- 
+
 import React from "react";
 import { useEffect } from "react";
 // reactstrap components
@@ -21,13 +21,13 @@ import GoogleMap from "../components/Geotagging/GooogleMap";
 // `;
 
 const MapWrapper = () => {
-  const mapRef = React.useRef(null);  
+  // const mapRef = React.useRef(null);  
  
 
   return (
     <>
       <div style={{ height: `100%` }} >
-          <GeotagPage/>
+          {/* <GeotagPage/> */}
       </div>
     </>
   );
@@ -47,7 +47,7 @@ function Map() {
                   className="map"
                   style={{ position: "relative" }}
                 >
-                  <MapWrapper />
+          <GeotagPage/>
                 </div>
               </CardBody>
             </Card>

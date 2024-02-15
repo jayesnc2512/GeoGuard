@@ -64,8 +64,8 @@ const GeotagPage = () => {
   return (
     <>
       <div className="geotag">
-        <div>
-          {/* <label>
+             {/* <div>
+        <label>
             Latitude:
             <input
               type="text"
@@ -95,8 +95,8 @@ const GeotagPage = () => {
             }
           >
             Add Coordinate
-          </button> */}
-        </div>
+          </button> 
+        </div>*/}
 
         {/* <MapWrapper coordinates={coordinates} /> */}
         <Gmaps cameras={cameras} />
