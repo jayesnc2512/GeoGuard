@@ -10,7 +10,7 @@ import { getFirestore } from 'firebase/firestore';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAE2F2GPwF2LEdyAWeDaHUK_ZWPV9DBdNQ",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "geoguard-29b78.firebaseapp.com",
   projectId: "geoguard-29b78",
   storageBucket: "geoguard-29b78.appspot.com",
