@@ -7,7 +7,7 @@
 /.pnp
 .pnp.js
 __pycache__/
-
+TeamBoka_GeoGuard/node_modules
 # testing
 /coverage
 
