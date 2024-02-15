@@ -7,7 +7,8 @@
 /.pnp
 .pnp.js
 __pycache__/
-TeamBoka_GeoGuard/node_modules
+BRANDNEW/node_modules
+BRANDNEW/.env
 # testing
 /coverage
 
