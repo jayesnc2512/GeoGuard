@@ -7,7 +7,6 @@ import { db, auth } from '../../firebase';
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { currentUser } from "firebase/auth"
 
-
 // const GeotagPageWrapper = styled.div`
 //   .leaflet-container {
 //     margin: 30px auto;
