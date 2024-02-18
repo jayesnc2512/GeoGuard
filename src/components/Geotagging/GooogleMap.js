@@ -71,12 +71,12 @@ const Gmaps = ({ cameras }) => {
   const calculateDistance = (point1, point2) => {
     const deg2rad = (deg) => deg * (Math.PI / 180);
     const R = 6371; // Radius of the Earth in km
-    const dLat = deg2rad(point2.lat - point1.lat);
-    const dLon = deg2rad(point2.lng - point1.lng);
+    const dLat = deg2rad(point2.latitude - point1.lat);
+    const dLon = deg2rad(point2.longitude - point1.lng);
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(deg2rad(point1.lat)) *
-        Math.cos(deg2rad(point2.lat)) *
+        Math.cos(deg2rad(point2.latitude)) *
         Math.sin(dLon / 2) *
         Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
@@ -108,20 +108,22 @@ const Gmaps = ({ cameras }) => {
         <div style={{ position: "relative", height: "75vh", width: "100%" }}>
           <Map
             defaultZoom={5}
-            center={{ lat: 20.5937, lng: 78.9629 }}
+            defaultCenter={{ lat: 20.5937, lng: 78.9629 }}
             mapId={process.env.REACT_APP_GOOGLE_MAPS_ID}
           >
             {cameras &&
               Object.keys(cameras).map((key, index) => {
                 const coord = cameras[key];
                 const distance = calculateDistance(userLocation, coord);
+                console.log(distance);
+
                 if (!showNearbyCameras || distance <= radius) {
                   return (
                     <AdvancedMarker
                       key={index}
                       position={{
-                        lat: parseFloat(coord.lat),
-                        lng: parseFloat(coord.lng),
+                        lat: parseFloat(coord.latitude) ,
+                        lng: parseFloat(coord.longitude),
                       }}
                       onClick={() => handleMarkerClick(index, coord)}
                     >
@@ -137,14 +139,14 @@ const Gmaps = ({ cameras }) => {
                 onClick={() => handleMarkerClick(null)}
               >
                 <Pin background={"green"} borderColor={"green"} glyphColor={"white"} />
-                {selectedMarker === null && userLocation && (
+                {/* {selectedMarker === null && userLocation && (
                   <InfoWindow position={userLocation}>
                     <p>
                       Your Location: Latitude {userLocation.lat}, Longitude{" "}
                       {userLocation.lng}
                     </p>
                   </InfoWindow>
-                )}
+                )} */}
               </AdvancedMarker>
             )}
             {showNearbyCameras && (
@@ -177,11 +179,11 @@ const Gmaps = ({ cameras }) => {
               </p>
               <p>
                 <strong>Latitude: </strong>
-                {selectedMarkerData.lat}
+                {selectedMarkerData.latitude}
               </p>
               <p>
                 <strong>Longitude: </strong>
-                {selectedMarkerData.lng}
+                {selectedMarkerData.longitude}
               </p>
               <p>
                 <strong>Image: </strong>
