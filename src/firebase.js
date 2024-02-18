@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -16,7 +16,7 @@ const firebaseConfig = {
   storageBucket: "geoguard-29b78.appspot.com",
   messagingSenderId: "692053753746",
   appId: "1:692053753746:web:acc5fd277af90615c44b4b",
-  measurementId: "G-M1TM7G2C3J"
+  measurementId: "G-M1TM7G2C3J",
 };
 
 // Initialize Firebase
