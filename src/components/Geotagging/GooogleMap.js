@@ -44,7 +44,7 @@ const GmapsWrap = styled.div`
 `;
 
 const Gmaps = ({ cameras }) => {
-  const [userLocation, setUserLocation] = useState(null);
+  const [userLocation, setUserLocation] = useState("");
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [showMoreInfo, setShowMoreInfo] = useState(false);
   const [selectedMarkerData, setSelectedMarkerData] = useState(null);
