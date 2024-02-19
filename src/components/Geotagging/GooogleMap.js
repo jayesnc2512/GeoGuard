@@ -5,7 +5,6 @@ import {
   AdvancedMarker,
   Pin,
   InfoWindow,
-  Polygon
 } from "@vis.gl/react-google-maps";
 import styled from "styled-components";
 import { Circle } from "./circle.tsx";
@@ -51,8 +50,7 @@ const Gmaps = ({ cameras }) => {
   const [selectedMarkerData, setSelectedMarkerData] = useState(null);
   const [radius, setRadius] = useState(15000); // Default radius
   const [showNearbyCameras, setShowNearbyCameras] = useState(false);
-  const [fovVisible, setFovVisible] = useState(false);
-  const [cameraAngle, setCameraAngle] = useState(30); 
+
   useEffect(() => {
     const getLocation = () => {
       navigator.geolocation.getCurrentPosition(
@@ -86,44 +84,11 @@ const Gmaps = ({ cameras }) => {
     return distance * 1000; // Convert to meters
   };
 
-  // Function to calculate the vertices of the camera's field of view triangle
-  const calculateFovVertices = (position, angle) => {
-    const halfAngle = angle / 2;
-    const bearing1 = position.bearing - halfAngle;
-    const bearing2 = position.bearing + halfAngle;
-
-    const vertex1 = {
-      lat: position.lat + Math.sin((bearing1 * Math.PI) / 180),
-      lng: position.lng + Math.cos((bearing1 * Math.PI) / 180),
-    };
-
-    const vertex2 = {
-      lat: position.lat + Math.sin((position.bearing * Math.PI) / 180),
-      lng: position.lng + Math.cos((position.bearing * Math.PI) / 180),
-    };
-
-    const vertex3 = {
-      lat: position.lat + Math.sin((bearing2 * Math.PI) / 180),
-      lng: position.lng + Math.cos((bearing2 * Math.PI) / 180),
-    };
-
-    return [vertex1, vertex2, vertex3];
-  };
-
-  // Event handler for marker click
   const handleMarkerClick = (index, data) => {
     setSelectedMarker(index);
     setSelectedMarkerData(data);
-    setFovVisible(true);
-    setShowMoreInfo(true);
+    setShowMoreInfo(true); // Always show more info on marker click
   };
-
-  // Event handler to toggle the visibility of the field of view
-  const handleToggleFov = () => {
-    setFovVisible(!fovVisible);
-  };
-
-
 
   const handleViewMoreClick = () => {
     setShowMoreInfo(!showMoreInfo);
@@ -169,7 +134,6 @@ const Gmaps = ({ cameras }) => {
                 return null;
               })}
             {userLocation && (
-              <>
               <AdvancedMarker
                 position={userLocation}
                 onClick={() => handleMarkerClick(null)}
@@ -184,14 +148,6 @@ const Gmaps = ({ cameras }) => {
                   </InfoWindow>
                 )} */}
               </AdvancedMarker>
-              {fovVisible && selectedMarker === index && (
-                        <Polygon
-                          positions={fovVertices}
-                          fillColor="rgba(0, 0, 255, 0.3)"
-                          strokeColor="blue"
-                        />
-                      )}
-              </>
             )}
             {showNearbyCameras && (
               <Circle center={userLocation} radius={radius} />
