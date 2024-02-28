@@ -65,7 +65,9 @@ const AddCamera = () => {
 
         getUserUid();
     }, []);
-
+    const alertsubmit = () => {
+        alert("Camera added successfully!");
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -115,7 +117,7 @@ const AddCamera = () => {
         } catch (error) {
             console.error('Error adding camera: ', error);
         }
-
+        alert("Camera added successfully!");
     };
 
 
@@ -147,7 +149,7 @@ const AddCamera = () => {
                                             <FormGroup>
                                                 <label>Name</label>
                                                 <Input
-                                                    defaultValue="savio"
+                                                    defaultValue="Savio"
                                                     disabled
                                                     placeholder="Username"
                                                     type="text"
@@ -159,7 +161,7 @@ const AddCamera = () => {
                                                 <label htmlFor="exampleInputEmail1">
                                                     Email address
                                                 </label>
-                                                <Input defaultValue="GeoGaurd@gmail.com"
+                                                <Input defaultValue="geoguard@gmail.com"
                                                     disabled
                                                     placeholder="Username"
                                                     type="email" />

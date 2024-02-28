@@ -194,7 +194,7 @@ function Dashboard() {
             </Card>
           </Col>
         </Row>
-        <Row>
+        {/* <Row>
           <Col md="12">
             <Card>
               <CardHeader>
@@ -217,13 +217,13 @@ function Dashboard() {
               </CardFooter>
             </Card>
           </Col>
-        </Row>
+        </Row> */}
         <Row>
           <Col md="4">
             <Card>
               <CardHeader>
-                <CardTitle tag="h5">Email Statistics</CardTitle>
-                <p className="card-category">Last Campaign Performance</p>
+                <CardTitle tag="h5">Detection</CardTitle>
+                <p className="card-category"></p>
               </CardHeader>
               <CardBody style={{ height: "266px" }}>
                 <Pie
@@ -233,14 +233,15 @@ function Dashboard() {
               </CardBody>
               <CardFooter>
                 <div className="legend">
-                  <i className="fa fa-circle text-primary" /> Opened{" "}
-                  <i className="fa fa-circle text-warning" /> Read{" "}
-                  <i className="fa fa-circle text-danger" /> Deleted{" "}
-                  <i className="fa fa-circle text-gray" /> Unopened
+                  <div>
+                  <i className="fa fa-circle text-primary" /> Tampering{"  "}
+                  <i className="fa fa-circle text-warning" /> Crowd Congestion </div>
+                  <div><i className="fa fa-circle text-danger" /> Camera Shutdown{"  "}
+                  <i className="fa fa-circle text-gray" /> Vehicle Congestion</div>
                 </div>
                 <hr />
                 <div className="stats">
-                  <i className="fa fa-calendar" /> Number of emails sent
+                  <i className="fa fa-calendar" /> Number of Complaints Lodged: 12
                 </div>
               </CardFooter>
             </Card>
@@ -248,8 +249,8 @@ function Dashboard() {
           <Col md="8">
             <Card className="card-chart">
               <CardHeader>
-                <CardTitle tag="h5">NASDAQ: AAPL</CardTitle>
-                <p className="card-category">Line Chart with Points</p>
+                <CardTitle tag="h5">Registered User</CardTitle>
+                <p className="card-category"></p>
               </CardHeader>
               <CardBody>
                 <Line
@@ -261,8 +262,8 @@ function Dashboard() {
               </CardBody>
               <CardFooter>
                 <div className="chart-legend">
-                  <i className="fa fa-circle text-info" /> Tesla Model S{" "}
-                  <i className="fa fa-circle text-warning" /> BMW 5 Series
+                  <i className="fa fa-circle text-info" /> Number of Users{" "}
+                  <i className="fa fa-circle text-warning" /> Number of Cameras Registered
                 </div>
                 <hr />
                 <div className="card-stats">
