@@ -20,8 +20,9 @@ https://github.com/jayesnc2512/TeamBoka_GeoGuard/assets/91362589/c3dd54fe-89a0-4
 
 - **Hosting**:
   - Hosted on Google App Engine
+  - Load balancer included for optimal performance
 <!-- - Kubernetes Engine utilized -->
-  - Load balancer included for optimal performance 
+   
 
 
 ### How to Setup Locally
