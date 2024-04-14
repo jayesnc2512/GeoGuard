@@ -28,6 +28,29 @@ https://github.com/jayesnc2512/TeamBoka_GeoGuard/assets/91362589/c3dd54fe-89a0-4
 ### How to Setup Locally
 
 ### Modules
+#### 1. Camera Registration Module:
+- Enrollment of cameras and data storage.
+- Administration of geotagged data.
+
+#### 2. Module for Geotagging:
+- Using the Google Maps API to geotag the approved camera area and introduction.
+- Interactive map will help the Control center module to strategically plan the layout to avoid any casualties.
+
+#### 3. Object Detection and failure detection: 
+- Analysis of video streams from registered cameras.
+- Identification of specific objects using deep learning and object detection.
+- Detection of camera failures.
+
+#### 4. Alerting:
+- Real-time communication and alert generation based on detected objects.
+- Notification of camera failures to the Owner and Control Center.
+
+#### 5. Command and Control Center Module:
+- Confirmation of camera registration and alert subscription.
+- Map-based interface for displaying alerts and camera locations.
+- Interface for contacting camera owners, requesting access to video footage, and dispatching police units.
+- Reception and processing of alerts from the Object Detection and Failure Detection Module.
+
 
 ### Goals to achieve
 - **Planning on switching to SQL based database for better scalability**
