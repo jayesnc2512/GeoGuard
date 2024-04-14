@@ -37,6 +37,6 @@ https://github.com/jayesnc2512/TeamBoka_GeoGuard/assets/91362589/c3dd54fe-89a0-4
 ### Achievements
 - Qualified for preliminary round of IEEE YESIST12. 
 
-- Currently developing under guidance of Rajasthan Police
+- Currently developing under guidance of Rajasthan Police (Finalist at Rajasthan Police Hackathon 1.0)
 
 - Presented project idea for City institute of disaster Management(BMC) 
