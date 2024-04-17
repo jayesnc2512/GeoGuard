@@ -1,7 +1,7 @@
   Stream = require('node-rtsp-stream')
 stream = new Stream({
   name: 'name',
-  streamUrl: 'rtsp://admin:L2439CC8@192.168.1.11:554/cam/realmonitor?channel=1&subtype=0',
+  streamUrl: 'rtsp://admin:L2439CC8@192.168.147.227:554/cam/realmonitor?channel=1&subtype=0',
   wsPort: 9999,
   ffmpegOptions: { // options ffmpeg flags
     '-stats': '', // an option with no neccessary value uses a blank string
