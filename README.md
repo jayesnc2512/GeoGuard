@@ -3,7 +3,6 @@ Private cameras in businesses, homes, and institutions play a crucial role in en
 
 ### Video Demonstration:
  
-
 https://github.com/jayesnc2512/TeamBoka_GeoGuard/assets/91362589/c3dd54fe-89a0-4878-9165-265b69d589e0
 
 ### Techstack: 
@@ -23,9 +22,56 @@ https://github.com/jayesnc2512/TeamBoka_GeoGuard/assets/91362589/c3dd54fe-89a0-4
   - Load balancer included for optimal performance
 <!-- - Kubernetes Engine utilized -->
    
-
-
 ### How to Setup Locally
+#### Setup ML Model
+#### 💻 Install
+  ```bash
+#direct to ml folder
+cd yolov8-live-master
+
+# create python virtual environment
+python3 -m venv venv
+
+# activate the virtual environment
+source venv/bin/activate
+
+# install dependencies
+pip install -r requirements.txt
+```
+#### 📸 Execute
+
+```bash
+python3 -m main
+```
+
+#### Setup Dashboard
+#### 💻 Install
+```bash
+
+
+# install node_modules for client
+npm install
+
+#direct to Server
+cd server
+
+# install node_modules for server
+npm install
+```
+
+#### 📸 Execute
+
+```bash
+#Run server
+cd server
+npm start
+```
+```bash
+#on a separate cmd Run client
+npm start
+```
+
+
 
 ### Modules
 #### 1. Camera Registration Module:
