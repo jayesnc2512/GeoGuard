@@ -51,7 +51,7 @@ const AddCamera = () => {
                 setUid(user.uid);
                 const userDoc = doc(db, 'users', user.uid);
                 const userSnapshot = await getDoc(userDoc);
-                console.log("getting user data", userSnapshot);
+                // console.log("getting user data", userSnapshot);
                 if (userSnapshot.exists()) {
                     const userData = userSnapshot.data();
                     console.log(userData.name)
