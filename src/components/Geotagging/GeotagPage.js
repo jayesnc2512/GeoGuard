@@ -51,7 +51,7 @@ const GeotagPage = () => {
           return doc.data();
         });
         setCameras(camerasList);
-        console.log(cameras)
+        // console.log(cameras)
       } catch (err) {
         console.warn("getCameras failed", err);
       }

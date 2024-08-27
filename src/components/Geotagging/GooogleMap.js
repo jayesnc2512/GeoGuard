@@ -10,37 +10,37 @@ import styled from "styled-components";
 import { Circle } from "./circle.tsx";
 
 const GmapsWrap = styled.div`
-.infowindow {
-  padding: 5px;
-}
-.infowindow img {
-  width: 100px;
-  height: 100px;
-}
-.card {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: white;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.card img {
-  width: 50px;
-  height: 50px;
-}
-.control-panel {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: white;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+  .infowindow {
+    padding: 5px;
+  }
+  .infowindow img {
+    width: 100px;
+    height: 100px;
+  }
+  .card {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .card img {
+    width: 50px;
+    height: 50px;
+  }
+  .control-panel {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const Gmaps = ({ cameras }) => {
@@ -50,6 +50,23 @@ const Gmaps = ({ cameras }) => {
   const [selectedMarkerData, setSelectedMarkerData] = useState(null);
   const [radius, setRadius] = useState(15000); // Default radius
   const [showNearbyCameras, setShowNearbyCameras] = useState(false);
+  const [markerColor, setMarkerColor] = useState("blue");
+  const [isBlinking, setIsBlinking] = useState(false);
+
+  useEffect(() => {
+    let colorInterval;
+
+    if (isBlinking) {
+      colorInterval = setInterval(() => {
+        setMarkerColor(prevColor => (prevColor === "blue" ? "red" : "blue"));
+      }, 1000);  // Change color every 1 second
+    } else {
+      clearInterval(colorInterval);
+      setMarkerColor("blue");  // Reset to default color when blinking stops
+    }
+
+    return () => clearInterval(colorInterval);  // Cleanup interval on unmount
+  }, [isBlinking]);
 
   useEffect(() => {
     const getLocation = () => {
@@ -67,8 +84,9 @@ const Gmaps = ({ cameras }) => {
     getLocation();
   }, []);
 
-  // Function to calculate distance between two points using Haversine formula
+
   const calculateDistance = (point1, point2) => {
+    if (!point1.lat || !point1.lng) return Infinity;
     const deg2rad = (deg) => deg * (Math.PI / 180);
     const R = 6371; // Radius of the Earth in km
     const dLat = deg2rad(point2.latitude - point1.lat);
@@ -87,7 +105,8 @@ const Gmaps = ({ cameras }) => {
   const handleMarkerClick = (index, data) => {
     setSelectedMarker(index);
     setSelectedMarkerData(data);
-    setShowMoreInfo(true); // Always show more info on marker click
+    setShowMoreInfo(true);
+    setIsBlinking(true);  // Start blinking when marker is clicked
   };
 
   const handleViewMoreClick = () => {
@@ -115,7 +134,6 @@ const Gmaps = ({ cameras }) => {
               Object.keys(cameras).map((key, index) => {
                 const coord = cameras[key];
                 const distance = calculateDistance(userLocation, coord);
-                console.log(distance);
 
                 if (!showNearbyCameras || distance <= radius) {
                   return (
@@ -127,7 +145,7 @@ const Gmaps = ({ cameras }) => {
                       }}
                       onClick={() => handleMarkerClick(index, coord)}
                     >
-                      <Pin background={"blue"} borderColor={"darkblue"} glyphColor={"white"} />
+                      <Pin background={markerColor} borderColor={"darkblue"} glyphColor={"white"} />
                     </AdvancedMarker>
                   );
                 }
